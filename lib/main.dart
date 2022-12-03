@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
               localizationsDelegates: context.localizationDelegates,
               // locale: Get.deviceLocale,
               debugShowCheckedModeBanner: false,
-              // theme: ThemeData.dark(),
-              theme: ThemeManager.myTheme,
+               theme: ThemeData.dark(),
+//              theme: ThemeManager.myTheme,
               // theme: getApplicationTheme(isDark: appProvider.darkTheme),
               home:SplashView()
           );
