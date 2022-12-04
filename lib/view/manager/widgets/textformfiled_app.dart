@@ -15,7 +15,8 @@ class TextFiledApp extends StatefulWidget {
       this.validator,
       this.onChanged,
       this.onTap,
-      this.autofocus = false
+      this.autofocus = false,
+      this.readOnly = false
   }) : super(key: key);
 
   final TextInputAction textInputAction;
@@ -25,6 +26,7 @@ class TextFiledApp extends StatefulWidget {
   final String hintText;
   final bool suffixIcon;
   final bool autofocus;
+  final bool readOnly;
   bool obscureText;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
@@ -48,7 +50,7 @@ class _TextFiledAppState extends State<TextFiledApp> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
+      readOnly: widget.readOnly,
       autofocus: widget.autofocus,
       validator: widget.validator??(String? val){
         if(val!.trim().isEmpty) return tr(LocaleKeys.field_required);

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../manager/widgets/build_office_item.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
@@ -34,6 +36,7 @@ class HomeView extends StatelessWidget {
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (ctx, index) => BuildOfficeTransferItem(
+              index: index,
               officeName: "Alwassem",
               distance: "98.54 KM",
               ammount: "2",
@@ -42,77 +45,6 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class BuildOfficeTransferItem extends StatelessWidget {
-  final String officeName;
-  final String distance;
-  final String ammount;
-  final String img;
-
-  const BuildOfficeTransferItem(
-      {super.key,
-      required this.officeName,
-      required this.distance,
-      required this.ammount,
-      required this.img});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Get.to(() => CurrencyOfficeView()),
-      child: ShadowContainer(
-        color: Theme.of(context).cardColor,
-        padding: AppPadding.p10,
-        child: Row(
-          children: [
-            Expanded(
-                flex: 2,
-                child: Column(
-                  children: [
-                    ListTile(
-
-                      title: Text(officeName),
-                      leading: Icon(Icons.person),
-                    ),
-                    ListTile(
-                      title: Text(distance),
-                      leading: Icon(Icons.location_on),
-                    ),
-                    ListTile(
-                      title: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(text: ammount),
-                            TextSpan(text: " %",
-                                style: getBoldStyle(
-                                    color: ColorManager.error,
-                                  fontSize: 22.sp
-
-                                )),
-                          ]
-                        )
-                      ),
-                      leading: Icon(Icons.money_off),
-                    ),
-                  ],
-                )),
-            Expanded(
-              child: Container(
-                height: 16.h,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(AppSize.s14)),
-                child: Hero(
-                    tag: AssetsManager.logoIMG,
-                    child: Image.asset(img)),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

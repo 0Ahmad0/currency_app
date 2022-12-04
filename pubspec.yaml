@@ -46,6 +46,11 @@ dependencies:
   cached_network_image: ^3.2.3
   currency_picker: ^2.0.13
   country_flags: ^1.0.0
+  fl_chart: ^0.55.2
+  awesome_dialog: ^3.0.2
+  animate_icons: ^2.0.0
+  image_picker: ^0.8.6
+  firebase_core: ^2.3.0
 flutter_icons:
   android: true
   ios: true

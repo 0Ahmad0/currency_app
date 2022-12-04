@@ -1,7 +1,7 @@
 const imagePath = 'assets/images';
 class AssetsManager{
   static const logoIMG = '$imagePath/logo.png';
-  static const splashLogoIMG = '$imagePath/splash_logo.png';
+  static const addCurrencyIMG = '$imagePath/add_currency.png';
   static const loginBackgroundIMG = '$imagePath/loginBackground.jpg';
   static const drinksIMG = '$imagePath/drinks.jpg';
   static const mainDishesIMG = '$imagePath/maindishes.jpg';

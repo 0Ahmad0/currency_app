@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:currency_app/view/admin/add_office/add_office_view.dart';
 import 'package:currency_app/view/manager/widgets/custom_listtile.dart';
+import 'package:currency_app/view/profile/profile_view.dart';
+import 'package:currency_app/view/setting/setting_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../translations/locale_keys.g.dart';
@@ -44,48 +48,62 @@ class BuildDrawer extends StatelessWidget {
             radius: AppSize.s30,
 
           ):
-          */Container(
-              decoration: BoxDecoration(
-                color: Theme
-                    .of(context)
-                    .cardColor,
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  fit: BoxFit.fill,
-                  width: 30.w,
-                  height: 30.h,
-                  imageUrl:
-                  // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
-                  "https://live.staticflickr.com/1928/44477856474_882848622a_n.jpg",
-                  imageBuilder: (context, imageProvider) =>
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .primaryColor,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                            //    colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+          */GestureDetector(
+            onTap: ()=>Get.to(()=>ProfileView()),
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Theme
+                      .of(context)
+                      .cardColor,
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    width: 30.w,
+                    height: 30.h,
+                    imageUrl:
+                    // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
+                    "https://live.staticflickr.com/1928/44477856474_882848622a_n.jpg",
+                    imageBuilder: (context, imageProvider) =>
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Theme
+                                .of(context)
+                                .primaryColor,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                              //    colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                            ),
                           ),
                         ),
-                      ),
-                  placeholder: (context, url) =>
-                      CircularProgressIndicator(),
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error),
-                ),
-              )
+                    placeholder: (context, url) =>
+                        CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error),
+                  ),
+                )
+            ),
           ),
         ),
-        CustomListTile(title: tr(LocaleKeys.setting), icon: Icons.settings),
+        CustomListTile(
+            onTap: ()=>Get.to(()=>SettingView()),
+            title: tr(LocaleKeys.setting), icon: Icons.settings),
          Divider(
           height: 0.0,
           color: Theme.of(context).primaryColor.withOpacity(.5),
         ),
-        CustomListTile(title: tr(LocaleKeys.profile), icon: Icons.person),
+        CustomListTile(
+            onTap: ()=>Get.to(()=>ProfileView()),
+            title: tr(LocaleKeys.profile), icon: Icons.person),
+        Divider(
+          height: 0.0,
+          color: Theme.of(context).primaryColor.withOpacity(.5),
+        ),
+        CustomListTile(
+            onTap: ()=>Get.to(()=>AddOfficeView()),
+            title: tr(LocaleKeys.add_office), icon: Icons.attach_money),
         Divider(
           height: 0.0,
           color: Theme.of(context).primaryColor.withOpacity(.5),
