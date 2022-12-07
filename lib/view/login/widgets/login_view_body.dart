@@ -29,10 +29,10 @@ class LoginViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Form(
-          key: formKey,
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: SafeArea(
           child: Column(
             children: [
               FadeInLeftBig(child: Image.asset(AssetsManager.logoIMG)),
@@ -89,7 +89,7 @@ class LoginViewBody extends StatelessWidget {
                          text: tr(LocaleKeys.login),
                          onPressed: () {
                            if (formKey.currentState!.validate()) {
-                             Get.to(NavbarView());
+                             Get.to(()=>NavbarView());
                            }
                          }),
                    ),

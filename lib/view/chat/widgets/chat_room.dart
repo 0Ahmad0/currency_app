@@ -125,7 +125,8 @@ class MessageFile extends StatelessWidget {
         ),
         decoration: BoxDecoration(
             color:
-                index.isEven ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
+                index.isEven ? ColorManager.thirdlyColor
+                    : Theme.of(context).cardColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(AppSize.s14),
               topRight: Radius.circular(AppSize.s14),
@@ -141,7 +142,9 @@ class MessageFile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.all(AppPadding.p10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppPadding.p10
+              ),
               child: Row(
                 mainAxisAlignment: index.isOdd
                     ? MainAxisAlignment.end
@@ -149,14 +152,13 @@ class MessageFile extends StatelessWidget {
                 children: [
                   Text(
                     "Ahmad Alhariri",
-                    style: getRegularStyle(color: Theme.of(context).cardColor),
+                    style: getRegularStyle(
+                        color: index.isOdd?Colors.black:Theme.of(context).cardColor
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: AppSize.s10,
             ),
             ListTile(
               title: Text("Message")

@@ -51,6 +51,10 @@ dependencies:
   animate_icons: ^2.0.0
   image_picker: ^0.8.6
   firebase_core: ^2.3.0
+  location: ^4.4.0
+  flutter_osm_plugin: ^0.42.0
+  flutter_svg: ^1.1.6
+  geocoding: ^2.0.5
 flutter_icons:
   android: true
   ios: true

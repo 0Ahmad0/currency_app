@@ -162,6 +162,19 @@ class _ProfileViewState extends State<ProfileViewBody> {
                       iconData: Icons.lock,
                       hintText: tr(LocaleKeys.password)
                   ),
+                 Visibility(
+                   // TODO if user is office
+                   visible: true == true,
+                   child: Column(
+                     children: [
+                       const SizedBox(height: AppSize.s10,),
+                       TextFiledApp(
+                           iconData: Icons.money_off,
+                           hintText: tr(LocaleKeys.amount)
+                       ),
+                     ],
+                   ),
+                 ),
                   const SizedBox(height: AppSize.s20,),
                   ButtonApp(text: tr(LocaleKeys.edit_password), onPressed: (){
                     Get.dialog(
