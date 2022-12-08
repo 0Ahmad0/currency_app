@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959914819166",
+    "project_id": "my-currency-ebbb1",
+    "storage_bucket": "my-currency-ebbb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959914819166:android:e95c4a4d9005d27de9becf",
+        "android_client_info": {
+          "package_name": "com.example.currency_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959914819166-no2ie28q53nv1sgeagm9ot50go555iko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC23nvtWITEyll3MYDKWUVpVHN9JFZurLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959914819166-no2ie28q53nv1sgeagm9ot50go555iko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
