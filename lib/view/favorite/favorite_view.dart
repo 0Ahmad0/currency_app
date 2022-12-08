@@ -13,7 +13,7 @@ class FavoriteView extends StatelessWidget {
     return  ListView.builder(
       itemCount: 2,
       itemBuilder: (ctx, index) => BuildOfficeTransferItem(
-        index: index,
+        index: index +1,
         officeName: "Alwassemedfnbjndfnbjdnfjbnjdfbjdfnjn",
         distance: "98.54 KM",
         ammount: "2",

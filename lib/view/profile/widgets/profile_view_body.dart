@@ -83,51 +83,48 @@ class _ProfileViewState extends State<ProfileViewBody> {
                   Stack(
                     children: [
                       Container(
-                        width: 30.w,
-                        height: 30.h,
+                        width: 35.w,
+                        height: 35.w,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
                                 color: Theme.of(context).primaryColor,
                                 width: AppSize.s4)),
                         child: image == null
-                            ? ClipOval(
-                                child: CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                width: 5.w,
-                                height: 5.h,
-                                imageUrl:
-                                    // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
-                                    "https://images.techhive.com/images/article/2017/05/pcw-translate-primary-100723319-large.jpg",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                      width: 5.w,
-                                      height: 5.h,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                      //    colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) =>
-                                    Center(child: CircularProgressIndicator()),
-                              ))
-                            : ClipOval(
-                                child: Image.file(
-                                  File(image!.path),
-                                  fit: BoxFit.fill,
+                            ? CachedNetworkImage(
+                            imageUrl:
+                                // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
+                                "https://images.techhive.com/images/article/2017/05/pcw-translate-primary-100723319-large.jpg",
+                            imageBuilder: (context, imageProvider) =>
+                                Container(
+                                  width: 5.w,
+                                  height: 5.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                  //    colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
                                 ),
                               ),
+                            ),
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                              )
+                            :   ClipOval(
+                              child: Image.file(File(image!.path),
+                                width: 5.w,
+                                height: 5.w,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                       ),
                       Positioned(
-                        bottom: 25,
+                        bottom: 0,
                         right: 0,
                         child: Container(
                           width: 12.w,
-                          height: 12.h,
+                          height: 12.w,
                           decoration: BoxDecoration(
                               color: Theme.of(context).cardColor,
                               border: Border.all(
@@ -143,6 +140,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                       )
                     ],
                   ),
+                  const SizedBox(height: AppSize.s10,),
                   TextFiledApp(
                       iconData: Icons.person,
                       hintText: tr(LocaleKeys.full_name)
@@ -227,7 +225,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
         builder: (_) {
           return Center(
             child: Container(
-              height: 15.h,
+              height: 20.h,
               width: SizerUtil.width - 30.0,
               color: Theme.of(context).cardColor,
               child: Material(
@@ -246,18 +244,11 @@ class _ProfileViewState extends State<ProfileViewBody> {
                               AppPadding.p8),
                           child: Row(
                             children: [
-                              Icon(Icons.camera,
-                                  size: 20.sp),
+                              Icon(Icons.camera),
                               const SizedBox(
                                 width: AppSize.s8,
                               ),
-                              Text(tr(
-                                LocaleKeys.camera,
-                              ),style: getBoldStyle(
-                                  color: ColorManager
-                                      .black,
-                                  fontSize: 12.sp
-                              ),),
+                              Text("Camera"),
                             ],
                           ),
                         ),
@@ -268,7 +259,8 @@ class _ProfileViewState extends State<ProfileViewBody> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: () {
+                        onTap: ()  {
+
                           pickFromGallery();
                           Navigator.pop(context);
                         },
@@ -278,21 +270,37 @@ class _ProfileViewState extends State<ProfileViewBody> {
                               AppPadding.p8),
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.photo,
-                                size: 20.sp,
-                              ),
+                              Icon(Icons.photo),
                               const SizedBox(
                                 width: AppSize.s8,
                               ),
-                              Text(
-                                tr(LocaleKeys.gallery),
-                                style: getBoldStyle(
-                                    color: ColorManager
-                                        .black,
-                                    fontSize: 12.sp
-                                ),
+                              Text("Gallery"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      height: 0.0,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: ()  {
+
+                          // removeGallery();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(
+                              AppPadding.p8),
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete),
+                              const SizedBox(
+                                width: AppSize.s8,
                               ),
+                              Text("Remove"),
                             ],
                           ),
                         ),
@@ -306,3 +314,94 @@ class _ProfileViewState extends State<ProfileViewBody> {
         });
   }
 }
+/*
+Center(
+                                          child: Container(
+                                            height: Sizer.getW(context) * 0.4,
+                                            width:
+                                                Sizer.getW(context) - AppSize.s30,
+                                            color: Theme.of(context).cardColor,
+                                            child: Material(
+                                              color: Colors.transparent,
+                                              child: Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        pickFromCamera();
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        padding: EdgeInsets.all(
+                                                            AppPadding.p8),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.camera),
+                                                            const SizedBox(
+                                                              width: AppSize.s8,
+                                                            ),
+                                                            Text("Camera"),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Divider(
+                                                    height: 0.0,
+                                                  ),
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: ()  {
+
+                                                        pickFromGallery();
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        padding: EdgeInsets.all(
+                                                            AppPadding.p8),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.photo),
+                                                            const SizedBox(
+                                                              width: AppSize.s8,
+                                                            ),
+                                                            Text("Gallery"),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Divider(
+                                                    height: 0.0,
+                                                  ),
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: ()  {
+
+                                                        removeGallery();
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        padding: EdgeInsets.all(
+                                                            AppPadding.p8),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.delete),
+                                                            const SizedBox(
+                                                              width: AppSize.s8,
+                                                            ),
+                                                            Text("Remove"),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+ */

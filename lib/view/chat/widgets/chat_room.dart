@@ -116,7 +116,7 @@ class MessageFile extends StatelessWidget {
         )..show();
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: AppPadding.p10),
+        // padding: const EdgeInsets.symmetric(vertical: AppPadding.p10),
         margin: EdgeInsets.only(
           top: AppMargin.m10,
           bottom: AppMargin.m10,

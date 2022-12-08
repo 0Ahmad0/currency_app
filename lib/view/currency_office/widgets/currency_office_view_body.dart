@@ -35,42 +35,41 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Hero(
-            tag: '${widget.index}',
-            child: Stack(
-              children: [
-                Container(
-                    alignment: Alignment.center,
-                    height: 24.h,
-                    width: double.infinity,
-                    color: Theme.of(context).primaryColor,
-                    child: SafeArea(child: Image.asset(AssetsManager.logoIMG))),
-                SafeArea(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Container(
-                      padding: const EdgeInsets.all(AppPadding.p4),
-                      margin: const EdgeInsets.all(AppMargin.m12),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                        onPressed: () {
-                          isFav = !isFav;
-                          setState(() {});
-                        },
-                        icon: Icon(
-                          isFav ? Icons.favorite : Icons.favorite_outline,
-                          size: isFav ? AppSize.s30 : AppSize.s20,
-                          color: isFav ? ColorManager.error :
-                          Theme.of(context).primaryColor,
-                        ),
+          Stack(
+            children: [
+              Container(
+                  alignment: Alignment.center,
+                  height: 24.h,
+                  width: double.infinity,
+                  color: Theme.of(context).primaryColor,
+                  child: Hero(
+                      tag: '${widget.index}',
+                      child: Image.asset(AssetsManager.logoIMG))),
+              SafeArea(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    padding: const EdgeInsets.all(AppPadding.p4),
+                    margin: const EdgeInsets.all(AppMargin.m12),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        shape: BoxShape.circle),
+                    child: IconButton(
+                      onPressed: () {
+                        isFav = !isFav;
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        isFav ? Icons.favorite : Icons.favorite_outline,
+                        size: isFav ? AppSize.s30 : AppSize.s20,
+                        color: isFav ? ColorManager.error :
+                        Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
           const SizedBox(
             height: AppSize.s10,

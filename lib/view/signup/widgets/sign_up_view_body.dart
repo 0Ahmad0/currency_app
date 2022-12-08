@@ -1,6 +1,7 @@
 import 'package:currency_app/view/login/widgets/login_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import '../../../controller/form_validator.dart';
 import '../../login/login_view.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
@@ -67,12 +68,8 @@ class SignupViewBody extends StatelessWidget {
                             controller: emailController,
                             hintText: tr(LocaleKeys.email_address),
                             iconData: Icons.email,
-                            validator: (String? val) {
-                              if (!val!.isEmail)
-                                return tr(LocaleKeys.enter_valid_email);
-                              return null;
-                            },
-                          ),
+                            validator: (val)=>FormValidator.emailValidator(val),
+                        ),
                         ),
                         const SizedBox(
                           height: AppSize.s10,
@@ -83,11 +80,7 @@ class SignupViewBody extends StatelessWidget {
                             hintText: tr(LocaleKeys.mobile_number),
                             iconData: Icons.phone,
                             keyboardType: TextInputType.phone,
-                            validator: (String? val) {
-                              if (!val!.isPhoneNumber)
-                                return tr(LocaleKeys.enter_valid_phone_number);
-                              return null;
-                            },
+                            validator: (val)=>FormValidator.phoneValidator(val)
                           ),
                         ),
                         const SizedBox(
@@ -100,11 +93,7 @@ class SignupViewBody extends StatelessWidget {
                             suffixIcon: true,
                             hintText: tr(LocaleKeys.password),
                             iconData: Icons.lock,
-                            validator: (String? val) {
-                              if (val!.length < 8 && !validatePassword(val!))
-                                return tr(LocaleKeys.enter_strong_password);
-                              return null;
-                            },
+                            validator: (val)=>FormValidator.passwordValidator(val)
                           ),
                         ),
                         const SizedBox(
@@ -117,12 +106,7 @@ class SignupViewBody extends StatelessWidget {
                             suffixIcon: true,
                             hintText: tr(LocaleKeys.confirm_password),
                             iconData: Icons.lock,
-                            validator: (String? val) {
-                              if (confirmPassworddController.text
-                                      .compareTo(passwordController.text) !=
-                                  0) return tr(LocaleKeys.enter_matched_password);
-                              return null;
-                            },
+                            validator:(val)=>FormValidator.confirmPasswordValidator(passwordController.text,val)
                           ),
                         ),
                         const SizedBox(
