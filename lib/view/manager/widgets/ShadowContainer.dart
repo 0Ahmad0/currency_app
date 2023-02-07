@@ -28,10 +28,10 @@ class ShadowContainer extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       margin: EdgeInsets.all(margin),
       decoration: BoxDecoration(
-          color: color,
+          color: Theme.of(context).cardColor,
           boxShadow: [
             BoxShadow(
-                color: shadowColor.withOpacity(.3),
+                color: Theme.of(context).primaryColor.withOpacity(.3),
                 blurRadius: blurRadius,
               offset: Offset(0,4)
             ),
