@@ -39,7 +39,7 @@ class CurrencyProvider with ChangeNotifier{
     //   Const.TOAST(context,textToast: MessageApi.findTextToast(result['message'].toString()));
     // }
     // return result;
-       this.timeFrame=await TimeFrame.fromJson(MapLocal.map);
+       this.timeFrame=await TimeFrame.fromJson(MapLocal.map2);
       var result =await processTimeFrameCurrency(convert: convert);
      // print(this.timeFrame.chart);
 

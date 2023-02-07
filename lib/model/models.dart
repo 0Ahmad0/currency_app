@@ -34,6 +34,7 @@ class User {
   String latitude;
   String longitude;
   String amount;
+  double distanceKm;
   User({
     required this.id,
     required this.uid,
@@ -50,6 +51,7 @@ class User {
     this.latitude = "0",
     this.amount = "0",
     this.location = "",
+    this.distanceKm = 0,
 
     this.active = false,
     this.tokens = const[],

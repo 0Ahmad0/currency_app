@@ -16,14 +16,16 @@ import '../../model/utils/const.dart';
 
 import '../../translations/locale_keys.g.dart';
 import '../utils/firebase.dart';
-
+import 'dart:math' as Math;
 class OfficeProvider with ChangeNotifier{
  Users offices=Users(users: []);
  Users officesFavorite=Users(users: []);
  User office=User.init();
  bool price=false;
  bool location=false;
- fetchOffice({required String search}) async {
+ fetchOffice(BuildContext context,{required String search}) async {
+  ProfileProvider profileProvider=Provider.of<ProfileProvider>(context,listen: false);
+  await profileProvider.getCurrentLocation();
    var result;
    if(price)
      result= await fetchOfficeOrderByPrice();
@@ -34,6 +36,7 @@ class OfficeProvider with ChangeNotifier{
    if(result['status']){
      offices=Users.fromJson(result['body']);
      offices.users=searchOfficesByName(search, offices.users);
+     offices.users=await getDistanceFromLatLonInKmForList(profileProvider.user.latitude,profileProvider.user.longitude,offices.users);
    }
    return result;
 
@@ -41,11 +44,13 @@ class OfficeProvider with ChangeNotifier{
 
  fetchOfficesFavorite(BuildContext context) async {
    ProfileProvider profileProvider=Provider.of<ProfileProvider>(context,listen: false);
+   await profileProvider.getCurrentLocation();
    var result;
      result=await FirebaseFun.fetchUsersByTypeUserAndByList(typeUser: AppConstants.collectionOffice
          , nameList: 'id', list: profileProvider.user.favourite);
    if(result['status']){
      officesFavorite=Users.fromJson(result['body']);
+     officesFavorite.users=await getDistanceFromLatLonInKmForList(profileProvider.user.latitude,profileProvider.user.longitude,officesFavorite.users);
    }else Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
    return result;
 
@@ -100,6 +105,38 @@ class OfficeProvider with ChangeNotifier{
    return user;
  }
 
+ getDistanceFromLatLonInKmForList(lat1,lon1,List<User> listUser){
+
+   for(User user in listUser){
+     user.distanceKm=getDistanceFromLatLonInKm(
+       double.parse(lat1),
+       double.parse(lon1),
+       double.parse(user.latitude),
+       double.parse(user.longitude),
+     );
+   }
+   return listUser;
+ }
+ double getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+
+   var R = 6371; // Radius of the earth in km
+   var dLat = deg2rad(lat2-lat1);  // deg2rad below
+   var dLon = deg2rad(lon2-lon1);
+
+   var a =
+       Math.sin(dLat/2) * Math.sin(dLat/2) +
+           Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+               Math.sin(dLon/2) * Math.sin(dLon/2)
+   ;
+   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+   var d = R * c; // Distance in km
+
+   return d;
+ }
+
+ double deg2rad(deg) {
+   return deg * (Math.pi/180);
+ }
 
  Future uploadFile({required String filePath,required String typePathStorage}) async {
    try {

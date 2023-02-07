@@ -58,11 +58,12 @@ OfficeProvider officeProvider=OfficeProvider();
       itemBuilder: (ctx, index) {
         officeProvider.office=officeProvider.officesFavorite.users[index];
         return BuildOfficeTransferItem(
-        index: index +1,
+        index: index ,
         officeName:officeProvider.officesFavorite.users[index].name,//"Alwassemedfnbjndfnbjdnfjbnjdfbjdfnjn",
-        distance: officeProvider.officesFavorite.users[index].location,//"98.54 KM",
+        distance: '${officeProvider.officesFavorite.users[index].location}-${officeProvider.officesFavorite.users[index].distanceKm.toStringAsFixed(2)} KM',
         ammount: officeProvider.officesFavorite.users[index].amount,//"2",
         img: AssetsManager.logoIMG,
+          office:  officeProvider.officesFavorite.users[index]
       );},
     );
   }

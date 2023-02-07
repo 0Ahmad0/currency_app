@@ -60,7 +60,7 @@ class _HomeViewState extends State<HomeView> {
                 builder: (context, officeProvider, child)=>
         FutureBuilder(
           //prints the messages to the screen0
-            future: officeProvider.fetchOffice(search: searchController.text),
+            future: officeProvider.fetchOffice(context,search: searchController.text),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return
@@ -95,15 +95,16 @@ class _HomeViewState extends State<HomeView> {
             //   setState(() {
             //   });
             // });
-            officeProvider.office=officeProvider.offices.users[index];
+          //  officeProvider.office=officeProvider.offices.users[index];
             return isShow?
             FadeInDownBig(
               child: BuildOfficeTransferItem(
                 index: index,
                 officeName: officeProvider.offices.users[index].name,
-                distance: officeProvider.offices.users[index].location, //"98.54 KM",
+                distance: '${officeProvider.offices.users[index].location}-${officeProvider.offices.users[index].distanceKm.toStringAsFixed(2)} KM', //"98.54 KM",
                 ammount: officeProvider.offices.users[index].amount,
                 img: AssetsManager.logoIMG,
+                  office: officeProvider.offices.users[index]
               ),
             )
                 :SvgPicture.asset(

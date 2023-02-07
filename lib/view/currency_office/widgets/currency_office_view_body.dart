@@ -111,7 +111,10 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
             leading: Icon(Icons.factory),
           ),
           ListTile(
-            title: Text("Taiba - 13.6 KM"),
+            title: Text(
+              '${officeProvider.office.location}-${officeProvider.office.distanceKm.toStringAsFixed(2)} KM',
+                //"Taiba - 13.6 KM"
+            ),
             leading: Icon(Icons.location_on),
           ),
           ListTile(

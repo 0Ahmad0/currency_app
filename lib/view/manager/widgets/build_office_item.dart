@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../model/models.dart';
 import '../../currency_office/currency_office_view.dart';
 import '../../resourse/color_manager.dart';
 import '../../resourse/style_manager.dart';
@@ -17,20 +18,23 @@ class BuildOfficeTransferItem extends StatelessWidget {
   final String ammount;
   final String img;
   final int index;
+  final User office;
 
   const BuildOfficeTransferItem(
       {super.key,
         required this.officeName,
         required this.distance,
         required this.ammount,
-        required this.img, required this.index});
+        required this.img, required this.index, required this.office});
 
   @override
   Widget build(BuildContext context) {
 
+
     return GestureDetector(
       onTap: () => Get.to(() => CurrencyOfficeView(
         index: index,
+        office: office,
       )),
       child: ShadowContainer(
         color: Theme.of(context).cardColor,

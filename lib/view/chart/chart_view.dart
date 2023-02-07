@@ -244,6 +244,8 @@ class _ChartViewState extends State<ChartView> {
     data = [];
     for(String key in timeFrame.chart.keys)
     {
+      double m=double.parse('${key.substring(5,7)}');
+      double d=double.parse('${key.substring(8,10)}');
       double x=double.parse('${key.substring(5,7)}${key.substring(8,10)}');
       data.add(
           FlSpot(x, timeFrame.chart[key])
