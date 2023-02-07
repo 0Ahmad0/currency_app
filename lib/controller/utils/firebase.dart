@@ -161,7 +161,7 @@ class FirebaseFun{
   }
   static fetchUsersByTypeUserOrderBy(String typeUser,String orderBy)  async {
     final result=await FirebaseFirestore.instance.collection(typeUser)
-    .orderBy(orderBy,descending: true)
+    .orderBy(orderBy)
         .get()
         .then((onValueFetchUsers))
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
