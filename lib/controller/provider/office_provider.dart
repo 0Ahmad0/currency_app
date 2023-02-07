@@ -23,6 +23,7 @@ class OfficeProvider with ChangeNotifier{
  User office=User.init();
  bool price=false;
  bool location=false;
+ bool ani=true;
  fetchOffice(BuildContext context,{required String search}) async {
   ProfileProvider profileProvider=Provider.of<ProfileProvider>(context,listen: false);
   await profileProvider.getCurrentLocation();

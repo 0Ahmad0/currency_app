@@ -68,8 +68,13 @@ bool ani = true;
         ChangeNotifierProvider<OfficeProvider>.value(
             value: Provider.of<OfficeProvider>(context),
             child: Consumer<OfficeProvider>(
-                builder: (context, officeProvider, child)=>
-        FutureBuilder(
+                builder: (context, officeProvider, child){
+                  ani = officeProvider.ani;
+                  if(!ani)Future.delayed(Duration(milliseconds: 1000),(){
+                    officeProvider.ani=true;
+                    officeProvider.notifyListeners();
+                  });
+    return FutureBuilder(
           //prints the messages to the screen0
             future: officeProvider.fetchOffice(context,search: searchController.text),
             builder: (context, snapshot) {
@@ -91,11 +96,12 @@ bool ani = true;
                   return const Text('Empty data');
                 }
 
-            }),))
+            });},))
       ],
     );
   }
   buildListSearch(BuildContext context){
+
     isShow=officeProvider.offices.users.length>0;
     return Expanded(
       child: ListView.builder(

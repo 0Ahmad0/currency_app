@@ -92,6 +92,7 @@ class _NavbarViewState extends State<NavbarView> {
                       onTap:(){
                         officeProvider.location=!officeProvider.location;
                         officeProvider.price=false;
+                        officeProvider.ani=false;
                         officeProvider.notifyListeners();
                       }
                     ),
@@ -109,6 +110,7 @@ class _NavbarViewState extends State<NavbarView> {
                       onTap:(){
                         officeProvider.price=!officeProvider.price;
                         officeProvider.location=false;
+                        officeProvider.ani=false;
                         officeProvider.notifyListeners();
                       }
                     ),
