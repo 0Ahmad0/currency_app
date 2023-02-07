@@ -80,7 +80,14 @@ class _NavbarViewState extends State<NavbarView> {
                 itemBuilder: (context) => [
 
                     PopupMenuItem(
-                      child:    Text('${tr(LocaleKeys.location)}'),
+                      child:    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('${tr(LocaleKeys.location)}'),
+                          if(officeProvider.location)
+                          Icon(Icons.check,color: Theme.of(context).primaryColor,)
+                        ],
+                      ),
                       value: tr(LocaleKeys.location),
                       onTap:(){
                         officeProvider.location=!officeProvider.location;
@@ -90,10 +97,12 @@ class _NavbarViewState extends State<NavbarView> {
                     ),
                   PopupMenuItem(
                       child:  Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(tr(LocaleKeys.price)),
                           if( officeProvider.price)
-                            Icon(Icons.done)
+                            Icon(Icons.check,color: Theme.of(context).primaryColor,)
+
                         ],
                       ),
                       value: tr(LocaleKeys.price),
