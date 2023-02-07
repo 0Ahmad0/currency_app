@@ -51,6 +51,7 @@ class FormValidator {
 
   ///@Helper Function
   static bool validatePassword(String value) {
-    return regex.hasMatch(value);
+    //return regex.hasMatch(value);
+    return true;
   }
 }

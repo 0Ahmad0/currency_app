@@ -1,4 +1,12 @@
+import 'dart:async';
+
 import 'package:country_flags/country_flags.dart';
+import 'package:currency_app/controller/provider/chat_provider.dart';
+import 'package:currency_app/controller/provider/currency_provider.dart';
+import 'package:currency_app/controller/provider/profile_provider.dart';
+import 'package:currency_app/model/consts_manager.dart';
+import 'package:currency_app/model/models.dart';
+import 'package:currency_app/model/utils/const.dart';
 import 'package:currency_app/translations/locale_keys.g.dart';
 import 'package:currency_app/view/manager/widgets/ShadowContainer.dart';
 import 'package:currency_app/view/resourse/assets_manager.dart';
@@ -9,7 +17,11 @@ import 'package:currency_picker/currency_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../controller/provider/office_provider.dart';
 
 class CurrencyOfficeViewBody extends StatefulWidget {
   final int index;
@@ -26,12 +38,16 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
   final toController = TextEditingController();
 
   var flagFrom = "SA";
+  var currencyForm = "SAR";
+  var currencyTo = "USD";
   var flagTo = "US";
 
   bool isFav = false;
 
   @override
   Widget build(BuildContext context) {
+    OfficeProvider officeProvider=Provider.of<OfficeProvider>(context);
+    ProfileProvider profileProvider=Provider.of<ProfileProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -54,10 +70,25 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                     decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         shape: BoxShape.circle),
-                    child: IconButton(
-                      onPressed: () {
+                    child:
+                    (AppConstants.collectionUser.contains(profileProvider.user.typeUser))?
+                    ChangeNotifierProvider<ProfileProvider>.value(
+                      value:Provider.of<ProfileProvider>(context),
+                      child: Consumer<ProfileProvider>(
+                        builder: (context,value , child){
+                          isFav=value.user.favourite.contains(officeProvider.office.id);
+                          return
+                    IconButton(
+                      onPressed: () async {
                         isFav = !isFav;
-                        setState(() {});
+                        Const.LOADIG(context);
+                        var result=await officeProvider.changeFavourite(context, idUser: officeProvider.office.id);
+                        if(result['status'])
+                         await ChatProvider().createChat(context, listIdUser: [value.user.id,officeProvider.office.id]);
+                        Get.back();
+                        value.notifyListeners();
+                        officeProvider.notifyListeners();
+                       // setState(() {});
                       },
                       icon: Icon(
                         isFav ? Icons.favorite : Icons.favorite_outline,
@@ -65,7 +96,8 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                         color: isFav ? ColorManager.error :
                         Theme.of(context).primaryColor,
                       ),
-                    ),
+                    );}))
+                        :SizedBox()
                   ),
                 ),
               )
@@ -75,7 +107,7 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
             height: AppSize.s10,
           ),
           ListTile(
-            title: Text("ALwaseem Office"),
+            title: Text(officeProvider.office.name),
             leading: Icon(Icons.factory),
           ),
           ListTile(
@@ -84,7 +116,7 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
           ),
           ListTile(
             title: Text.rich(TextSpan(children: [
-              TextSpan(text: "2"),
+              TextSpan(text: officeProvider.office.amount),
               TextSpan(
                   text: " %",
                   style:
@@ -95,12 +127,18 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
           Divider(
             color: Colors.black,
           ),
+          ChangeNotifierProvider<CurrencyProvider>.value(
+          value:Provider.of<CurrencyProvider>(context),
+    child: Consumer<CurrencyProvider>(
+    builder: (context,currencyProvider , child){
+      return ListBody(
+        children: [
           ShadowContainer(
               color: Theme.of(context).cardColor,
               child: Column(
                 children: [
                   TextFormField(
-                    controller: toController,
+                    controller: fromController,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(AppPadding.p10),
                       icon: GestureDetector(
@@ -110,7 +148,10 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                               onSelect: (Currency currency) {
                                 flagFrom = currency.code
                                     .substring(0, currency.code.length - 1);
-                                setState(() {});
+                                currencyForm=currency.code;
+                                currencyProvider.notifyListeners();
+                               // currencyProvider.currencyConvert.convert=Convert(from: flagFrom, to: to, amount: amount)
+                               // setState(() {});
                               });
                         },
                         child: CountryFlags.flag(
@@ -119,8 +160,20 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                           height: 30.0,
                         ),
                       ),
-                      hintText: tr(LocaleKeys.from),
-                    ),
+                      hintText: currencyProvider.waitFrom?tr(LocaleKeys.loading):tr(LocaleKeys.from),
+                    ),onFieldSubmitted: (val) async {
+                      currencyProvider.currencyConvert.convert=
+                          Convert(from: currencyForm, to: currencyTo, amount: double.parse(fromController.text));
+                      currencyProvider.waitTo=true;
+                      toController.text='';
+                      currencyProvider.notifyListeners();
+                       final result =await currencyProvider.convertCurrency(context, currencyConvert: currencyProvider.currencyConvert);
+                      if(result['status']){
+                        toController.text='${currencyProvider.currencyConvert.result+(currencyProvider.currencyConvert.result* double.parse(officeProvider.office.amount))}';
+                      }
+                      print('result ${ toController.text}');
+                      currencyProvider.notifyListeners();
+                  },
                   ),
                   const SizedBox(
                     height: AppSize.s10,
@@ -144,8 +197,9 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                   TextFormField(
                     controller: toController,
                     decoration: InputDecoration(
+
                       contentPadding: EdgeInsets.all(AppPadding.p10),
-                      hintText: tr(LocaleKeys.to),
+                      hintText: currencyProvider.waitTo?tr(LocaleKeys.loading):tr(LocaleKeys.to),
                       icon: GestureDetector(
                         onTap: () {
                           showCurrencyPicker(
@@ -153,7 +207,9 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                               onSelect: (Currency currency) {
                                 flagTo = currency.code
                                     .substring(0, currency.code.length - 1);
-                                setState(() {});
+                                currencyTo=currency.code;
+                                currencyProvider.notifyListeners();
+                                //setState(() {});
                               });
                         },
                         child: CountryFlags.flag(
@@ -163,11 +219,30 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                         ),
                       ),
                     ),
+                    onFieldSubmitted: (val) async {
+                      currencyProvider.currencyConvert.convert=
+                          Convert(from: currencyTo, to: currencyForm, amount: double.parse(toController.text));
+                      currencyProvider.waitFrom=true;
+                      fromController.text='';
+                      currencyProvider.notifyListeners();
+
+                      final result =await currencyProvider.convertCurrency(context, currencyConvert: currencyProvider.currencyConvert);
+                      if(result['status']){
+                        fromController.text='${currencyProvider.currencyConvert.result+(currencyProvider.currencyConvert.result* double.parse(officeProvider.office.amount))}';
+                      }
+                      print('result ${ fromController.text}');
+                      currencyProvider.notifyListeners();
+
+                    },
                   ),
                 ],
               )),
-          
-          Text("${tr(LocaleKeys.total_amount)} 90.SR"),
+
+         // Text("${tr(LocaleKeys.total_amount)} 90.SR"),
+        ],
+      );
+
+    }))
         ],
       ),
     );

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../model/consts_manager.dart';
+import '../../model/local/storage.dart';
+import '../../model/models.dart';
 import '../../translations/locale_keys.g.dart';
 import '../resourse/color_manager.dart';
 import '../resourse/style_manager.dart';
@@ -76,8 +79,8 @@ class SettingView extends StatelessWidget {
                         onChanged: (val) async {
                           await context.setLocale(Locale('en'));
                           Get.updateLocale(context.locale);
-                          // AppStorage.storageWrite(key: AppConstants.languageKEY, value: true);
-                          // Advance.language = true;
+                           AppStorage.storageWrite(key: AppConstants.languageKEY, value: false);
+                           Advance.language = false;
                         },
                       ),
                     ),
@@ -98,8 +101,8 @@ class SettingView extends StatelessWidget {
                           // context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
                           Get.updateLocale(context.locale);
                           // //
-                          // AppStorage.storageWrite(key: AppConstants.languageKEY, value: false);
-                          // Advance.language = false;
+                           AppStorage.storageWrite(key: AppConstants.languageKEY, value: true);
+                           Advance.language = true;
                         },
                       ),
                     ),

@@ -1,7 +1,10 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:currency_app/model/utils/const.dart';
 import 'package:currency_app/view/home/home_view.dart';
 import 'package:currency_app/view/navbar/navbar.dart';
 import 'package:currency_app/view/signup/signup_view.dart';
+import '../../../controller/auth_controller.dart';
+import '../../../controller/utils/create_environment_provider.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/manager/widgets/textformfiled_app.dart';
@@ -16,6 +19,8 @@ import '../../manager/widgets/button_app.dart';
 import '../../resourse/color_manager.dart';
 
 class LoginViewBody extends StatelessWidget {
+  LoginViewBody({required this.authController});
+  final AuthController authController;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final forgetPasswordController = TextEditingController();
@@ -24,7 +29,8 @@ class LoginViewBody extends StatelessWidget {
       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
   bool validatePassword(String value) {
-    return regex.hasMatch(value);
+   // return regex.hasMatch(value);
+    return false;
   }
 
   @override
@@ -87,9 +93,12 @@ class LoginViewBody extends StatelessWidget {
                    FadeInLeftBig(
                      child: ButtonApp(
                          text: tr(LocaleKeys.login),
-                         onPressed: () {
+                         onPressed: () async {
+                           // Const.LOADIG(context);
+                           // await CreateEnvironmentProvider().createAdmins(context);
+                           // Get.back();
                            if (formKey.currentState!.validate()) {
-                             Get.to(()=>NavbarView());
+                             await  authController.login(context, email: emailController.text, password: passwordController.text);
                            }
                          }),
                    ),
@@ -139,8 +148,8 @@ class LoginViewBody extends StatelessWidget {
               ButtonApp(
                   textColor: Theme.of(context).textTheme.bodyMedium!.color,
                   text: tr(LocaleKeys.done),
-                  onPressed: () {
-                    Get.back();
+                  onPressed: () async {
+                    await authController.sendPasswordResetEmail(context, email: forgetPasswordController.text);
                   })
             ],
           ),

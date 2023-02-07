@@ -1,6 +1,8 @@
+import 'package:currency_app/model/consts_manager.dart';
 import 'package:currency_app/view/login/widgets/login_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import '../../../controller/auth_controller.dart';
 import '../../../controller/form_validator.dart';
 import '../../login/login_view.dart';
 import '/translations/locale_keys.g.dart';
@@ -17,6 +19,8 @@ import '../../manager/widgets/button_app.dart';
 import '../../resourse/color_manager.dart';
 
 class SignupViewBody extends StatelessWidget {
+  SignupViewBody({required this.authController});
+  final AuthController authController;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -27,7 +31,8 @@ class SignupViewBody extends StatelessWidget {
       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
   bool validatePassword(String value) {
-    return regex.hasMatch(value);
+    return true;
+   // return regex.hasMatch(value);
   }
 
   @override
@@ -115,8 +120,12 @@ class SignupViewBody extends StatelessWidget {
                         FadeInLeftBig(
                           child: ButtonApp(
                               text: tr(LocaleKeys.signup),
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {}
+                              onPressed: () async {
+                                if (formKey.currentState!.validate())
+                                {
+                                  await authController.signUp(context,
+                                      fullName: nameController.text, gender: '', dateBirth: DateTime.now(), email: emailController.text, password: passwordController.text, phoneNumber: phoneController.text, photoUrl: '', typeUser: AppConstants.collectionUser);
+                                }
                               }),
                         ),
                         const SizedBox(

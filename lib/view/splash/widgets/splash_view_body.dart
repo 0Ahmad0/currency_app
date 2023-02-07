@@ -11,7 +11,7 @@ class SplashViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3),()=>Get.off(()=>LoginView()));
+  //  Future.delayed(Duration(seconds: 3),()=>Get.off(()=>LoginView()));
     return Center(
       child: FadeInDownBig(
         child: Image.asset(AssetsManager.logoIMG),

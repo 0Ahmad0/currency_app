@@ -1,10 +1,18 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:currency_app/model/consts_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+
+import '../../../controller/auth_controller.dart';
+import '../../../controller/provider/profile_provider.dart';
+import '../../../model/utils/const.dart';
+import '../../app/picture/cach_picture_widget.dart';
+import '../../app/picture/profile_picture_widget.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/manager/widgets/textformfiled_app.dart';
 import '/view/resourse/color_manager.dart';
@@ -16,8 +24,9 @@ import '../../resourse/values_manager.dart';
 
 class ProfileViewBody extends StatefulWidget {
   final bool isIgnor;
-
-  const ProfileViewBody({super.key, required this.isIgnor});
+  final AuthController authController;
+  final ProfileProvider profileProvider;
+   ProfileViewBody({super.key, required this.isIgnor,required this.profileProvider, required this.authController});
   @override
   State<ProfileViewBody> createState() => _ProfileViewState();
 }
@@ -44,7 +53,12 @@ class _ProfileViewState extends State<ProfileViewBody> {
     // await uploadImage( );
     setState(() {});
   }
-
+  removeGallery() async {
+    image =null ;
+    widget.profileProvider.user.photoUrl=" ";
+    ///print(" ${image==null}");
+    setState(() {});
+  }
 //   Future uploadImage() async {
 //     try {
 //       String path = basename(image!.path);
@@ -91,26 +105,25 @@ class _ProfileViewState extends State<ProfileViewBody> {
                                 color: Theme.of(context).primaryColor,
                                 width: AppSize.s4)),
                         child: image == null
-                            ? CachedNetworkImage(
-                            imageUrl:
-                                // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
-                                "https://images.techhive.com/images/article/2017/05/pcw-translate-primary-100723319-large.jpg",
-                            imageBuilder: (context, imageProvider) =>
-                                Container(
-                                  width: 5.w,
-                                  height: 5.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  //    colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                ),
-                              ),
-                            ),
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                              )
+                            ?CacheNetworkImage(
+                          photoUrl: '${widget.profileProvider.user.photoUrl}',
+                          width: 5.w,
+                          height: 5.w,
+                          waitWidget: WidgetProfilePicture(
+                            name: widget.profileProvider.user.name,
+                            radius: 5.w,
+                            fontSize: 10.w,
+                            backgroundColor: ColorManager.secondaryColor,
+                            textColor: ColorManager.primaryColor,
+                          ),
+                          errorWidget: WidgetProfilePicture(
+                            name: widget.profileProvider.user.name,
+                            radius: 5.w,
+                            fontSize: 10.w,
+                            backgroundColor: ColorManager.secondaryColor,
+                            textColor: ColorManager.primaryColor,
+                          ),
+                        )
                             :   ClipOval(
                               child: Image.file(File(image!.path),
                                 width: 5.w,
@@ -142,31 +155,38 @@ class _ProfileViewState extends State<ProfileViewBody> {
                   ),
                   const SizedBox(height: AppSize.s10,),
                   TextFiledApp(
+                    controller: widget.profileProvider.name,
                       iconData: Icons.person,
                       hintText: tr(LocaleKeys.full_name)
                   ),
                   const SizedBox(height: AppSize.s10,),
                   TextFiledApp(
+                    controller: widget.profileProvider.name,
                       iconData: Icons.email,
                       hintText: tr(LocaleKeys.email_address)
                   ),
-                  const SizedBox(height: AppSize.s10,),
-                  TextFiledApp(
-                      iconData: Icons.phone_iphone,
-                      hintText: tr(LocaleKeys.mobile_number)
-                  ),
-                  const SizedBox(height: AppSize.s10,),
-                  TextFiledApp(
-                      iconData: Icons.lock,
-                      hintText: tr(LocaleKeys.password)
-                  ),
+                    const SizedBox(height: AppSize.s10,),
+                    TextFiledApp(
+                        controller: widget.profileProvider.phoneNumber,
+                        iconData: Icons.phone_iphone,
+                        hintText: tr(LocaleKeys.mobile_number)
+                    ),
+
+                  // const SizedBox(height: AppSize.s10,),
+                  // TextFiledApp(
+                  //     iconData: Icons.lock,
+                  //     hintText: tr(LocaleKeys.password)
+                  // ),
                  Visibility(
                    // TODO if user is office
-                   visible: true == true,
+                   visible:   (widget.profileProvider.user.typeUser.contains(AppConstants.collectionOffice)),
                    child: Column(
                      children: [
+
+
                        const SizedBox(height: AppSize.s10,),
                        TextFiledApp(
+                           controller: widget.profileProvider.amount,
                            iconData: Icons.money_off,
                            hintText: tr(LocaleKeys.amount)
                        ),
@@ -175,6 +195,9 @@ class _ProfileViewState extends State<ProfileViewBody> {
                  ),
                   const SizedBox(height: AppSize.s20,),
                   ButtonApp(text: tr(LocaleKeys.edit_password), onPressed: (){
+                    final passwordController = TextEditingController();
+                    final confirmPasswordController = TextEditingController();
+                    final formKey = GlobalKey<FormState>();
                     Get.dialog(
                         Center(
                           child: Material(
@@ -187,23 +210,36 @@ class _ProfileViewState extends State<ProfileViewBody> {
                                   color: ColorManager.white,
                                   borderRadius: BorderRadius.circular(AppSize.s24)
                               ),
-                              child: Column(
-                                children: [
-                                  TextFiledApp(
-                                      iconData: Icons.lock,
-                                      hintText: tr(LocaleKeys.new_password)
-                                  ),
-                                  const SizedBox(height: AppSize.s10,),
-                                  TextFiledApp(
-                                      iconData: Icons.lock,
-                                      hintText: tr(LocaleKeys.confirm_new_password)
-                                  ),
-                                  Spacer(),
-                                  ButtonApp(text: tr(LocaleKeys.done),
-                                      onPressed: (){
-                                        Get.back();
-                                      })
-                                ],
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    TextFiledApp(
+                                      controller: passwordController,
+                                        iconData: Icons.lock,
+                                        hintText: tr(LocaleKeys.new_password)
+                                    ),
+                                    const SizedBox(height: AppSize.s10,),
+                                    TextFiledApp(
+                                      controller: confirmPasswordController,
+                                        iconData: Icons.lock,
+                                        hintText: tr(LocaleKeys.confirm_new_password)
+                                    ),
+                                    Spacer(),
+                                    ButtonApp(text: tr(LocaleKeys.done),
+                                        onPressed: () async {
+                                          if(formKey.currentState!.validate()){
+                                            Const.LOADIG(context);
+                                            widget.profileProvider.user.password=passwordController.text;
+                                            final result =await widget.authController.authProvider.recoveryPassword(context, user: widget.profileProvider.user);
+                                            Get.back();
+                                            Get.back();
+                                          }else{
+                                            Get.snackbar("Error", "Please enter same password");
+                                          }
+                                        })
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -212,7 +248,13 @@ class _ProfileViewState extends State<ProfileViewBody> {
 
                   }),
                   const SizedBox(height: AppSize.s10,),
-                  ButtonApp(text: tr(LocaleKeys.edit), onPressed: (){}),
+                  ButtonApp(text: tr(LocaleKeys.edit), onPressed: () async {
+                    Const.LOADIG(context);
+                    if(image!=null)
+                      await widget.profileProvider.uploadImage(context, image!);
+                    await widget.profileProvider.editUser(context);
+                    Navigator.of(context).pop();
+                  }),
                 ],
               ),
             ),
@@ -287,7 +329,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                       child: InkWell(
                         onTap: ()  {
 
-                          // removeGallery();
+                           removeGallery();
                           Navigator.pop(context);
                         },
                         child: Container(

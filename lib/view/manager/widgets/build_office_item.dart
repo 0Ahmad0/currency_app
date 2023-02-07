@@ -1,6 +1,8 @@
 
+import 'package:currency_app/controller/provider/office_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../currency_office/currency_office_view.dart';
@@ -25,6 +27,7 @@ class BuildOfficeTransferItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () => Get.to(() => CurrencyOfficeView(
         index: index,

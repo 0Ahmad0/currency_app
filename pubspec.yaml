@@ -55,6 +55,13 @@ dependencies:
   flutter_osm_plugin: ^0.42.0
   flutter_svg: ^1.1.6
   geocoding: ^2.0.5
+  firebase_auth:
+  firebase_storage:
+  get_storage:
+  cloud_firestore:
+  provider: ^6.0.5
+  loading_animation_widget: ^1.2.0+3
+  http:
 flutter_icons:
   android: true
   ios: true

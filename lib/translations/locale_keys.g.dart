@@ -71,5 +71,23 @@ abstract class  LocaleKeys {
   static const pick = 'pick';
   static const amount = 'amount';
   static const office_name = 'office_name';
+  static const loading = 'loading';
+  static const active = 'active';
+  static const non_active = 'non_active';
+  static const toast = 'toast';
+  static const toast_successfully_created = 'toast_successfully_created';
+  static const toast_successfully_update = 'toast_successfully_update';
+  static const toast_Unsuccessfully_created = 'toast_Unsuccessfully_created';
+  static const toast_email_already_use = 'toast_email_already_use';
+  static const toast_short_password = 'toast_short_password';
+  static const toast_successfully_logged = 'toast_successfully_logged';
+  static const toast_email_invalid = 'toast_email_invalid';
+  static const toast_password_invalid = 'toast_password_invalid';
+  static const toast_network_error = 'toast_network_error';
+  static const toast_account_invalid = 'toast_account_invalid';
+  static const toast_Bad_data_fetch = 'toast_Bad_data_fetch';
+  static const toast_time_out = 'toast_time_out';
+  static const toast_given_empty = 'toast_given_empty';
+  static const toast_account_not_active = 'toast_account_not_active';
 
 }

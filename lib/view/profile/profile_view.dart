@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../controller/auth_controller.dart';
+import '../../controller/provider/profile_provider.dart';
 import '/translations/locale_keys.g.dart';
 
 import 'widgets/profile_view_body.dart';
@@ -28,7 +31,10 @@ class _ProfileViewState extends State<ProfileView> {
         ],
         title: Text(tr(LocaleKeys.profile)),
       ),
-      body: ProfileViewBody(isIgnor: isIgnor),
+      body:   ChangeNotifierProvider<ProfileProvider>.value(
+    value: Provider.of<ProfileProvider>(context),
+    child: Consumer<ProfileProvider>(
+    builder: (context, value, child) {return ProfileViewBody(isIgnor: isIgnor,profileProvider:value, authController: AuthController(context: context));})),
     );
   }
 }
