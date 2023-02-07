@@ -24,12 +24,12 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView>{
   bool isShow = false;
   final searchController = TextEditingController();
 
   OfficeProvider officeProvider = OfficeProvider();
-
+bool ani = true;
   @override
   Widget build(BuildContext context) {
     officeProvider=Provider.of<OfficeProvider>(context);
@@ -46,8 +46,19 @@ class _HomeViewState extends State<HomeView> {
                   hintText: tr(LocaleKeys.search),
                   prefixIcon: IconButton(
                     onPressed: () {
+                      ani = !ani;
+
                       setState(() {
                       });
+                      Future.delayed(Duration(milliseconds: 1000),(){
+
+                        ani = true;
+                        setState(() {
+
+                        });
+                      });
+
+
                     },
                     icon: Icon(Icons.search),
                   )),
@@ -97,7 +108,8 @@ class _HomeViewState extends State<HomeView> {
             // });
             officeProvider.office=officeProvider.offices.users[index];
             return isShow?
-            FadeInDownBig(
+            FadeInLeftBig(
+              animate: ani,
               child: BuildOfficeTransferItem(
                 index: index,
                 officeName: officeProvider.offices.users[index].name,
