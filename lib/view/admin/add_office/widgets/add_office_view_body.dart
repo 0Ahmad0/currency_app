@@ -119,6 +119,7 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
               height: AppSize.s10,
             ),
             TextFiledApp(
+              controller: amountController,
               iconData: Icons.attach_money,
               hintText: tr(LocaleKeys.amount),
               keyboardType: TextInputType.number,
