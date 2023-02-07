@@ -104,11 +104,11 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
               latitudeController.text=p!.latitude.toString();
               longitudeController.text=p!.longitude.toString();
 
-              // List<Placemark> placemarks =
-              //     await placemarkFromCoordinates(p!.latitude, p.longitude);
-              // print(placemarks.first.street);
-              // locationController.text = '${placemarks.first.country}'
-              //     ' ${placemarks.first.name}';
+              List<Placemark> placemarks =
+                  await placemarkFromCoordinates(p!.latitude, p.longitude);
+              print(placemarks.first.street);
+              locationController.text = '${placemarks.first.country}'
+                  ' ${placemarks.first.name}';
             },
             iconData: Icons.location_on,
             hintText: tr(LocaleKeys.location),

@@ -97,7 +97,7 @@ class _HomeViewState extends State<HomeView> {
             BuildOfficeTransferItem(
               index: index,
               officeName: officeProvider.offices.users[index].name,
-              distance: "98.54 KM",
+              distance: officeProvider.offices.users[index].location, //"98.54 KM",
               ammount: officeProvider.offices.users[index].amount,
               img: AssetsManager.logoIMG,
             )

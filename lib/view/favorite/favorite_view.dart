@@ -60,7 +60,7 @@ OfficeProvider officeProvider=OfficeProvider();
         return BuildOfficeTransferItem(
         index: index +1,
         officeName:officeProvider.officesFavorite.users[index].name,//"Alwassemedfnbjndfnbjdnfjbnjdfbjdfnjn",
-        distance: "98.54 KM",
+        distance: officeProvider.officesFavorite.users[index].location,//"98.54 KM",
         ammount: officeProvider.officesFavorite.users[index].amount,//"2",
         img: AssetsManager.logoIMG,
       );},
