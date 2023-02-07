@@ -16,6 +16,7 @@ import 'controller/provider/currency_provider.dart';
 import 'controller/provider/office_provider.dart';
 import 'controller/provider/process_provider.dart';
 import 'controller/provider/profile_provider.dart';
+import 'controller/provider/theme_provider.dart';
 import 'controller/utils/create_environment_provider.dart';
 import 'firebase_options.dart';
 import 'translations/codegen_loader.g.dart';
@@ -84,20 +85,25 @@ class MyApp extends StatelessWidget {
       ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
       ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
       ListenableProvider<OfficeProvider>(create: (_)=>OfficeProvider()),
+      ListenableProvider<ThemeProvider>(create: (_)=>ThemeProvider()),
       ListenableProvider<CurrencyProvider>(create: (_)=>CurrencyProvider()),
     ],
         child: Sizer(
         builder: (context, orientation, deviceType) {
-          return GetMaterialApp(
-              title: "Currency",
-              supportedLocales: context.supportedLocales,
-              localizationsDelegates: context.localizationDelegates,
-              // locale: Get.deviceLocale,
-              debugShowCheckedModeBanner: false,
-               // theme: ThemeData.dark(),
-             theme: ThemeManager.myTheme,
-              // theme: getApplicationTheme(isDark: appProvider.darkTheme),
-              home:SplashView()
+          return ChangeNotifierProvider<ThemeProvider>.value(
+            value: Provider.of<ThemeProvider>(context),
+            child: Consumer<ThemeProvider>(
+              builder: (_,value,child){
+                return GetMaterialApp(
+                    title: "Currency",
+                    supportedLocales: context.supportedLocales,
+                    localizationsDelegates: context.localizationDelegates,
+                    debugShowCheckedModeBanner: false,
+                    theme: value.isDark?ThemeManager.myThemeDark:ThemeManager.myTheme,
+                    home:SplashView()
+                );
+              },
+            )
           );
         }
     ));

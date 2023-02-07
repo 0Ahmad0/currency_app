@@ -74,4 +74,33 @@ class ThemeManager {
                 color: ColorManager.white, fontSize: AppSize.s20
             )),
   );
+  static var myThemeDark = ThemeData.dark().copyWith(
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorManager.lightGray)),
+      hintStyle: getRegularStyle(
+          color: ColorManager.lightGray, fontSize: FontSize.s20),
+      //label
+      labelStyle:
+      getMediumStyle(color: ColorManager.white, fontSize: FontSize.s14),
+      //error
+      errorStyle:
+      getRegularStyle(color: ColorManager.error, fontSize: FontSize.s14),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+          textStyle: getRegularStyle(
+              color: ColorManager.white, fontSize: FontSize.s24),
+          minimumSize: Size(double.infinity, AppSize.s60),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8))),
+    ),
+    appBarTheme: AppBarTheme(
+        centerTitle: true,
+        elevation: AppSize.s4,
+        titleTextStyle:
+        getRegularStyle(
+            color: ColorManager.white, fontSize: AppSize.s20
+        )),
+  );
 }
