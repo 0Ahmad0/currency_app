@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:currency_app/controller/provider/office_provider.dart';
 import 'package:currency_app/translations/locale_keys.g.dart';
 import 'package:currency_app/view/currency_office/currency_office_view.dart';
@@ -34,21 +35,23 @@ class _HomeViewState extends State<HomeView> {
     officeProvider=Provider.of<OfficeProvider>(context);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(AppPadding.p12),
-          child: TextFormField(
-            controller: searchController,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.zero,
-                hintText: tr(LocaleKeys.search),
-                prefixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                    });
-                  },
-                  icon: Icon(Icons.search),
-                )),
+        FadeInRightBig(
+          child: Padding(
+            padding: const EdgeInsets.all(AppPadding.p12),
+            child: TextFormField(
+              controller: searchController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.zero,
+                  hintText: tr(LocaleKeys.search),
+                  prefixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                      });
+                    },
+                    icon: Icon(Icons.search),
+                  )),
+            ),
           ),
         ),
         ChangeNotifierProvider<OfficeProvider>.value(
@@ -94,12 +97,14 @@ class _HomeViewState extends State<HomeView> {
             // });
             officeProvider.office=officeProvider.offices.users[index];
             return isShow?
-            BuildOfficeTransferItem(
-              index: index,
-              officeName: officeProvider.offices.users[index].name,
-              distance: officeProvider.offices.users[index].location, //"98.54 KM",
-              ammount: officeProvider.offices.users[index].amount,
-              img: AssetsManager.logoIMG,
+            FadeInDownBig(
+              child: BuildOfficeTransferItem(
+                index: index,
+                officeName: officeProvider.offices.users[index].name,
+                distance: officeProvider.offices.users[index].location, //"98.54 KM",
+                ammount: officeProvider.offices.users[index].amount,
+                img: AssetsManager.logoIMG,
+              ),
             )
                 :SvgPicture.asset(
               AssetsManager.emptyIMG,
