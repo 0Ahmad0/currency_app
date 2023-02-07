@@ -1,11 +1,13 @@
 
 import 'package:currency_app/controller/provider/office_provider.dart';
+import 'package:currency_app/model/utils/const.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../model/models.dart';
+import '../../app/picture/cach_picture_widget.dart';
 import '../../currency_office/currency_office_view.dart';
 import '../../resourse/color_manager.dart';
 import '../../resourse/style_manager.dart';
@@ -80,7 +82,13 @@ class BuildOfficeTransferItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppSize.s14)),
                 child: Hero(
                     tag: "${index}",
-                    child: Image.asset(img)),
+                    child: CacheNetworkImage(
+                      photoUrl: '${office.photoUrl}',
+                      width: 16.h,
+                      height: 16.h,
+                      waitWidget: Image.asset(img),
+                      errorWidget: Image.asset(img),
+                    )),
               ),
             )
           ],

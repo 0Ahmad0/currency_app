@@ -192,13 +192,16 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
 
                 if(formKey.currentState!.validate()){
                   Const.LOADIG(context);
+                  var photoUrl=await widget.authProvider.uploadImage(context, image!);
+                  if(photoUrl=='')
+                    photoUrl=AppConstants.photoProfileOffice;
                   widget.authProvider.user=User(id: '', uid: '',
                       name: fullNameController.text,
                       email: emailAddressController.text,
                       phoneNumber: phoneNumberController.text
                       , password: passwordController.text,
                       typeUser: AppConstants.collectionOffice,
-                      photoUrl: AppConstants.photoProfileOffice,
+                      photoUrl: photoUrl,
                       amount: amountController.text,
                       latitude: latitudeController.text,
                       location: locationController.text,

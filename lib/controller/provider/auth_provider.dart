@@ -2,6 +2,7 @@
 import 'package:currency_app/controller/provider/profile_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 import '../../model/consts_manager.dart';
@@ -239,6 +240,17 @@ class AuthProvider with ChangeNotifier{
     }
     return result;
   }
-
+  Future uploadImage(context,XFile image) async {
+    //Const.LOADIG(context);
+    var url=await FirebaseFun.uploadImage(image: image,folder: "profileImage");
+    print('url $url');
+    if(url==null)
+      Const.TOAST( context,textToast:FirebaseFun.findTextToast("Please, upload the image"));
+    else{
+      return url;
+    }
+    return '';
+    //Navigator.of(context).pop();
+  }
 }
 

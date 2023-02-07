@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../controller/provider/office_provider.dart';
+import '../../app/picture/cach_picture_widget.dart';
 
 class CurrencyOfficeViewBody extends StatefulWidget {
   final int index;
@@ -60,7 +61,15 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
                   color: Theme.of(context).primaryColor,
                   child: Hero(
                       tag: '${widget.index}',
-                      child: Image.asset(AssetsManager.logoIMG))),
+                      child: CacheNetworkImage(
+                        photoUrl: '${officeProvider.office.photoUrl}',
+                        width: (officeProvider.office.photoUrl.contains('.png'))?24.h:100.w,
+                        height: 24.h,
+                        waitWidget: Image.asset(AssetsManager.logoIMG),
+                        errorWidget: Image.asset(AssetsManager.logoIMG),
+
+                      )
+                  )),
               SafeArea(
                 child: Material(
                   color: Colors.transparent,
