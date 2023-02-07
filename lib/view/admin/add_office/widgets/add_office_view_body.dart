@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:currency_app/controller/provider/auth_provider.dart';
 import 'package:currency_app/view/navbar/navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,6 +32,26 @@ class AddOfficeViewBody extends StatefulWidget {
 }
 
 class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
+  ImagePicker picker = ImagePicker();
+
+  XFile? image;
+
+  pickFromCamera() async {
+    image = await picker.pickImage(source: ImageSource.camera);
+    setState(() {});
+  }
+
+  pickFromGallery() async {
+    image = await picker.pickImage(source: ImageSource.gallery);
+    // await uploadImage( );
+    setState(() {});
+  }
+  removeGallery() async {
+    image =null ;
+    // widget.profileProvider.user.photoUrl=" ";
+    ///print(" ${image==null}");
+    setState(() {});
+  }
   final formKey = GlobalKey<FormState>();
   final locationController = TextEditingController();
 
@@ -50,9 +73,47 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
           SafeArea(
               child: SvgPicture.asset(
             AssetsManager.addCurrencyIMG,
-            width: 25.w,
-            height: 25.h,
+            width: 20.w,
+            height: 20.h,
           )),
+          const SizedBox(
+            height: AppSize.s20,
+          ),
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 20.h,
+                decoration: BoxDecoration(
+    color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(5.sp)
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.sp),
+                  //todo mriwed
+                  child: image != null
+                      ?Image.file(File(image!.path),
+                  fit: BoxFit.fill,
+                  )
+                      :Image.asset(AssetsManager.logoIMG),
+                ),
+              ),
+              Positioned(
+                top: 5.sp,
+                left: !Advance.language?null: 5.sp,
+                right: Advance.language?null: 5.sp,
+                child: CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: IconButton(onPressed: (){
+                    _showDialog(context);
+                  }, icon: Icon(Icons.add_a_photo,
+                    color: Theme.of(context).cardColor,
+                  )),
+                ),
+              ),
+
+            ],
+          ),
           const SizedBox(
             height: AppSize.s20,
           ),
@@ -158,4 +219,99 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
       ),
     );
   }
+  void _showDialog(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (_) {
+          return Center(
+            child: Container(
+              height: 20.h,
+              width: SizerUtil.width - 30.0,
+              color: Theme.of(context).cardColor,
+              child: Material(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          pickFromCamera();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(
+                              AppPadding.p8),
+                          child: Row(
+                            children: [
+                              Icon(Icons.camera),
+                              const SizedBox(
+                                width: AppSize.s8,
+                              ),
+                              Text("Camera"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      height: 0.0,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: ()  {
+
+                          pickFromGallery();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(
+                              AppPadding.p8),
+                          child: Row(
+                            children: [
+                              Icon(Icons.photo),
+                              const SizedBox(
+                                width: AppSize.s8,
+                              ),
+                              Text("Gallery"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      height: 0.0,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: ()  {
+
+                          removeGallery();
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(
+                              AppPadding.p8),
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete),
+                              const SizedBox(
+                                width: AppSize.s8,
+                              ),
+                              Text("Remove"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
 }
