@@ -29,14 +29,15 @@ class OfficeProvider with ChangeNotifier{
    var result;
    if(price)
      result= await fetchOfficeOrderByPrice();
-   else if(location)
-     result=await fetchOfficeOrderByLocation();
+
    else
      result=await fetchOfficeByTypeUser();
    if(result['status']){
      offices=Users.fromJson(result['body']);
      offices.users=searchOfficesByName(search, offices.users);
      offices.users=await getDistanceFromLatLonInKmForList(profileProvider.user.latitude,profileProvider.user.longitude,offices.users);
+    if(location)
+     offices.users=await fetchOfficeOrderByLocation();
    }
    return result;
 
@@ -66,8 +67,11 @@ class OfficeProvider with ChangeNotifier{
 
  }
  fetchOfficeOrderByLocation() async {
-   final result=await FirebaseFun.fetchUsersByTypeUserOrderBy(AppConstants.collectionOffice, 'amount');
-   return result;
+
+   offices.users.sort((a, b){
+     return a.distanceKm.compareTo(b.distanceKm);
+   });
+   return offices.users;
  }
  searchOfficesByName(String  search,List listSearch){
    List trimSearch=search.trim().split(' ');
