@@ -145,7 +145,7 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
                   final result=await widget.authProvider.signupAD(context);
                   Get.back();
                   if(result['status']){
-                   Get.back();
+                   Get.off(NavbarView(),transition: Transition.rightToLeftWithFade);
                   }
 
                 }else{
