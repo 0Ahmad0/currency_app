@@ -190,10 +190,12 @@ class MessageFile extends StatelessWidget {
           title: "AppStrings.areYouSure",
           desc: "AppStrings.deleteThisMessage",
           btnCancelOnPress: () {
+
+          },
+          btnOkOnPress: () {
             chatProvider.deleteMessage(context, idChat: chatProvider.chat.id, message: chatProvider.chat.messages[index]);
 
           },
-          btnOkOnPress: () {},
         )..show();
       },
       child: Container(
