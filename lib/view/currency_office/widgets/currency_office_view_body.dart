@@ -13,6 +13,7 @@ import 'package:currency_app/view/resourse/assets_manager.dart';
 import 'package:currency_app/view/resourse/color_manager.dart';
 import 'package:currency_app/view/resourse/style_manager.dart';
 import 'package:currency_app/view/resourse/values_manager.dart';
+import 'package:currency_app/view/show_office_location/show_office_location_view.dart';
 import 'package:currency_picker/currency_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,14 @@ class _CurrencyOfficeViewBodyState extends State<CurrencyOfficeViewBody> {
             leading: Icon(Icons.factory),
           ),
           ListTile(
+            onTap: (){
+              Get.to(()=>ShowOfficeLocationView(
+                longitude: double.parse(officeProvider.office.longitude),
+                latitude: double.parse(officeProvider.office.longitude),
+              ),
+              transition: Transition.leftToRightWithFade
+              );
+            },
             title: Text(
               '${officeProvider.office.location}-${officeProvider.office.distanceKm.toStringAsFixed(2)} KM',
                 //"Taiba - 13.6 KM"
