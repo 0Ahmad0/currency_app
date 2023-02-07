@@ -112,14 +112,20 @@ class BuildDrawer extends StatelessWidget {
               ),
             ),
             CustomListTile(
-                onTap: ()=>Get.to(()=>SettingView()),
+                onTap: (){
+                  Get.back();
+                  Get.to(()=>SettingView());
+                },
                 title: tr(LocaleKeys.setting), icon: Icons.settings),
             Divider(
               height: 0.0,
               color: Theme.of(context).primaryColor.withOpacity(.5),
             ),
             CustomListTile(
-                onTap: ()=>Get.to(()=>ProfileView()),
+                onTap: (){
+                  Get.back();
+                  Get.to(()=>ProfileView());
+                },
                 title: tr(LocaleKeys.profile), icon: Icons.person),
             if(value.user.typeUser.contains(AppConstants.collectionAdmin))
             Divider(
@@ -128,7 +134,10 @@ class BuildDrawer extends StatelessWidget {
             ),
             if(value.user.typeUser.contains(AppConstants.collectionAdmin))
             CustomListTile(
-                onTap: ()=>Get.to(()=>AddOfficeView()),
+                onTap: (){
+                  Get.back();
+                  Get.to(()=>AddOfficeView());
+                },
                 title: tr(LocaleKeys.add_office), icon: Icons.attach_money),
             Divider(
               height: 0.0,

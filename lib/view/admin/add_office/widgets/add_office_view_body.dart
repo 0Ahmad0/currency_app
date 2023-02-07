@@ -42,122 +42,118 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Form(
-        key: formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(AppPadding.p12),
-          children: [
-            SafeArea(
-                child: SvgPicture.asset(
-              AssetsManager.addCurrencyIMG,
-              width: 25.w,
-              height: 25.h,
-            )),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            TextFiledApp(
-              controller: fullNameController,
-              iconData: Icons.person,
-              hintText: tr(LocaleKeys.office_name),
-            ),
-            const SizedBox(
-              height: AppSize.s10,
-            ),
-            TextFiledApp(
-              controller: emailAddressController,
-              iconData: Icons.email,
-              hintText: tr(LocaleKeys.email_address),
-            ),
-            const SizedBox(
-              height: AppSize.s10,
-            ),
-            TextFiledApp(
-              controller: phoneNumberController,
-              iconData: Icons.phone,
-              hintText: tr(LocaleKeys.mobile_number),
-            ),
-            const SizedBox(
-              height: AppSize.s10,
-            ),
-            TextFiledApp(
-              controller: passwordController,
-              iconData: Icons.password,
-              hintText: tr(LocaleKeys.password),
-              obscureText: true,
-              suffixIcon: true,
-            ),
-            const SizedBox(
-              height: AppSize.s10,
-            ),
-            TextFiledApp(
-              controller: locationController,
-              readOnly: true,
-              onTap: () async {
-                GeoPoint? p = await showSimplePickerLocation(
-                  context: context,
-                  isDismissible: true,
-                  title: tr(LocaleKeys.location),
-                  textConfirmPicker: tr(LocaleKeys.pick),
-                  initCurrentUserPosition: true,
-                );
-                latitudeController.text=p!.latitude.toString();
-                longitudeController.text=p.longitude.toString();
+    return Form(
+      key: formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(AppPadding.p12),
+        children: [
+          SafeArea(
+              child: SvgPicture.asset(
+            AssetsManager.addCurrencyIMG,
+            width: 25.w,
+            height: 25.h,
+          )),
+          const SizedBox(
+            height: AppSize.s20,
+          ),
+          TextFiledApp(
+            controller: fullNameController,
+            iconData: Icons.person,
+            hintText: tr(LocaleKeys.office_name),
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          TextFiledApp(
+            controller: emailAddressController,
+            iconData: Icons.email,
+            hintText: tr(LocaleKeys.email_address),
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          TextFiledApp(
+            controller: phoneNumberController,
+            iconData: Icons.phone,
+            hintText: tr(LocaleKeys.mobile_number),
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          TextFiledApp(
+            controller: passwordController,
+            iconData: Icons.password,
+            hintText: tr(LocaleKeys.password),
+            obscureText: true,
+            suffixIcon: true,
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          TextFiledApp(
+            controller: locationController,
+            readOnly: true,
+            onTap: () async {
+              GeoPoint? p = await showSimplePickerLocation(
+                context: context,
+                isDismissible: true,
+                title: tr(LocaleKeys.location),
+                textConfirmPicker: tr(LocaleKeys.pick),
+                initCurrentUserPosition: true,
+              );
+              latitudeController.text=p!.latitude.toString();
+              longitudeController.text=p.longitude.toString();
 
-                List<Placemark> placemarks =
-                    await placemarkFromCoordinates(p.latitude, p.longitude);
-                print(placemarks.first.street);
-                locationController.text = '${placemarks.first.country}'
-                    ' ${placemarks.first.name}';
-              },
-              iconData: Icons.location_on,
-              hintText: tr(LocaleKeys.location),
-            ),
-            const SizedBox(
-              height: AppSize.s10,
-            ),
-            TextFiledApp(
-              iconData: Icons.attach_money,
-              hintText: tr(LocaleKeys.amount),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(
-              height: AppSize.s10,
-            ),
-            ButtonApp(
-                text: tr(LocaleKeys.done),
-                onPressed: () async {
+              List<Placemark> placemarks =
+                  await placemarkFromCoordinates(p.latitude, p.longitude);
+              print(placemarks.first.street);
+              locationController.text = '${placemarks.first.country}'
+                  ' ${placemarks.first.name}';
+            },
+            iconData: Icons.location_on,
+            hintText: tr(LocaleKeys.location),
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          TextFiledApp(
+            iconData: Icons.attach_money,
+            hintText: tr(LocaleKeys.amount),
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          ButtonApp(
+              text: tr(LocaleKeys.done),
+              onPressed: () async {
 
-                  if(formKey.currentState!.validate()){
-                    Const.LOADIG(context);
-                    widget.authProvider.user=User(id: '', uid: '',
-                        name: fullNameController.text,
-                        email: emailAddressController.text,
-                        phoneNumber: phoneNumberController.text
-                        , password: passwordController.text,
-                        typeUser: AppConstants.collectionOffice,
-                        photoUrl: AppConstants.photoProfileOffice,
-                        amount: amountController.text,
-                        latitude: latitudeController.text,
-                        location: locationController.text,
-                        active: true,
-                        gender: '', dateBirth: DateTime.now());
-                    final result=await widget.authProvider.signupAD(context);
-                    Get.back();
-                    if(result['status']){
-                      Get.off(() => HomeView(),
-                          transition: Transition.circularReveal);
-                    }
-
-                  }else{
-                    Get.snackbar("Error", "Please fill all");
+                if(formKey.currentState!.validate()){
+                  Const.LOADIG(context);
+                  widget.authProvider.user=User(id: '', uid: '',
+                      name: fullNameController.text,
+                      email: emailAddressController.text,
+                      phoneNumber: phoneNumberController.text
+                      , password: passwordController.text,
+                      typeUser: AppConstants.collectionOffice,
+                      photoUrl: AppConstants.photoProfileOffice,
+                      amount: amountController.text,
+                      latitude: latitudeController.text,
+                      location: locationController.text,
+                      active: true,
+                      gender: '', dateBirth: DateTime.now());
+                  final result=await widget.authProvider.signupAD(context);
+                  Get.back();
+                  if(result['status']){
+                   Get.back();
                   }
-                  FocusManager.instance.primaryFocus!.unfocus();
-                })
-          ],
-        ),
+
+                }else{
+                  Get.snackbar("Error", "Please fill all");
+                }
+                FocusManager.instance.primaryFocus!.unfocus();
+              })
+        ],
       ),
     );
   }
