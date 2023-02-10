@@ -23,7 +23,7 @@ class ChatProvider with ChangeNotifier{
  createChat(BuildContext context,{required List<String> listIdUser}) async {
    //ProfileProvider profileProvider= Provider.of<ProfileProvider>(context);
   // List<String> listIdUser=[idLawyer,profileProvider.user.id];
-   var result=await FirebaseFun.fetchChatsByListIdUser(listIdUser: listIdUser);
+   var result=await fetchChatsByListIdUser(listIdUser: listIdUser);
    if(result['status']){
      if(result['body'].length<=0){
        result=await FirebaseFun.addChat(chat:
@@ -35,6 +35,32 @@ class ChatProvider with ChangeNotifier{
      else
        result=FirebaseFun.errorUser("Chat already found");
    }
+   return result;
+ }
+ fetchChatsByListIdUser({required List listIdUser}) async {
+   var result=await FirebaseFun.fetchChatsByListIdUser(listIdUser: listIdUser);
+   Chats chats=Chats.fromJson(result['body']);
+   List<Chat> listTemp=[];
+   for(var element in chats.listChat){
+     bool check=true;
+     // print('---------------------------');
+     // print(element.listIdUser);
+     // print(listIdUser);
+
+     for(String id in listIdUser){
+       // print(id);
+       if(!element.listIdUser.contains(id))
+         check=false;
+     }
+     // print(check);
+
+     if(check)
+       listTemp.add(element);
+   }
+   chats.listChat=listTemp;
+   // print(chats.toJson());
+   // print('---------------------------');
+   result['body']=chats.toJson()['listChat'];
    return result;
  }
  fetchLastMessage(context,{required String idChat}) async{
