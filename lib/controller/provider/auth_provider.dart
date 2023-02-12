@@ -240,8 +240,10 @@ class AuthProvider with ChangeNotifier{
     }
     return result;
   }
-  Future uploadImage(context,XFile image) async {
+  Future uploadImage(context,XFile? image) async {
     //Const.LOADIG(context);
+    if(image==null)
+      return '';
     var url=await FirebaseFun.uploadImage(image: image,folder: "profileImage");
     print('url $url');
     if(url==null)

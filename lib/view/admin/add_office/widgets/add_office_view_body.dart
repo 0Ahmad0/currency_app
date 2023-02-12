@@ -164,12 +164,11 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
               );
               latitudeController.text=p!.latitude.toString();
               longitudeController.text=p.longitude.toString();
-
-              List<Placemark> placemarks =
-                  await placemarkFromCoordinates(p.latitude, p.longitude);
-              print(placemarks.first.street);
-              locationController.text = '${placemarks.first.country}'
-                  ' ${placemarks.first.name}';
+              locationController.text='ryad_pabel';
+              // List<Placemark> placemarks = await placemarkFromCoordinates(p.latitude, p.longitude);
+              // print(placemarks.first.street);
+              // locationController.text = '${placemarks.first.country}'
+              //     ' ${placemarks.first.name}';
             },
             iconData: Icons.location_on,
             hintText: tr(LocaleKeys.location),
@@ -192,7 +191,7 @@ class _AddOfficeViewBodyState extends State<AddOfficeViewBody> {
 
                 if(formKey.currentState!.validate()){
                   Const.LOADIG(context);
-                  var photoUrl=await widget.authProvider.uploadImage(context, image!);
+                  var photoUrl=await widget.authProvider.uploadImage(context, image);
                   if(photoUrl=='')
                     photoUrl=AppConstants.photoProfileOffice;
                   widget.authProvider.user=User(id: '', uid: '',
